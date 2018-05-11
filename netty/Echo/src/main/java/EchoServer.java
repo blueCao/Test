@@ -70,6 +70,16 @@ public final class EchoServer {
             // Start the server.
             ChannelFuture f = b.bind(PORT).sync();
 
+            // 5s之后关闭server管道
+            new Thread(() -> {
+                try {
+                    Thread.sleep(5);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                f.channel().close();
+            }).start();
+
             // Wait until the server socket is closed.
             f.channel().closeFuture().sync();
         } finally {

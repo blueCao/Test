@@ -40,11 +40,13 @@ public class EchoClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
+        System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName());
         ctx.writeAndFlush(firstMessage);
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
+        System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName());
 
         ByteBuf b = (ByteBuf)msg;
         byte[] req = new byte[b.readableBytes()];
@@ -53,21 +55,49 @@ public class EchoClientHandler extends ChannelInboundHandlerAdapter {
             System.out.print(req[i]+",");
         }
         System.out.println();
-        System.out.println("channelRead");
-
-        ctx.write(msg);
+        //ctx.write(msg);
     }
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
+        System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName());
         ctx.flush();
         System.out.println("channelReadComplete");
+        ctx.channel().close();
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         // Close the connection when an exception is raised.
+        System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName());
         cause.printStackTrace();
         ctx.close();
     }
+
+    @Override
+    public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+        System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName());
+        ctx.fireChannelRegistered();
+    }
+    @Override
+    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+        System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName());
+        ctx.fireChannelUnregistered();
+    }
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName());
+        ctx.fireChannelInactive();
+    }
+    @Override
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+        System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName());
+        ctx.fireUserEventTriggered(evt);
+    }
+    @Override
+    public void channelWritabilityChanged(ChannelHandlerContext ctx) throws Exception {
+        System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName());
+        ctx.fireChannelWritabilityChanged();
+    }
+
 }
