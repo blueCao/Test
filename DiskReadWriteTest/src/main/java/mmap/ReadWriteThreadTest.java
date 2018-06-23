@@ -1,3 +1,5 @@
+package mmap;
+
 public class ReadWriteThreadTest {
     public static void main(String []args) throws Exception{
         if (System.getProperty("write") != null) {
@@ -30,7 +32,7 @@ public class ReadWriteThreadTest {
             writePools[i].join();
         }
         long endTimestamp = System.currentTimeMillis();
-        System.out.println("finished write "+ writeSize +"g in "+(endTimestamp-startTimestamp) +"ms. Avg: " + writeSize * 1024 / (endTimestamp-startTimestamp)+"M/s");
+        System.out.println("finished write "+ writeSize +"M in "+(endTimestamp-startTimestamp) +"ms. Avg: " + writeSize * 1024 / (endTimestamp-startTimestamp)+"M/s");
 
     }
 
@@ -53,7 +55,7 @@ public class ReadWriteThreadTest {
         int offset = 20;
         String offsetString = System.getProperty("offset");
         if(offsetString != null && Integer.valueOf(offsetString) > 0){
-            readThread = Integer.valueOf(offsetString);
+            offset = Integer.valueOf(offsetString);
         }
 
         Thread[] readPools = new Thread[readThread];
@@ -66,7 +68,7 @@ public class ReadWriteThreadTest {
             readPools[i].join();
         }
         long endTimestamp = System.currentTimeMillis();
-        System.out.println("finished read "+ readSize +"g in "+(endTimestamp-startTimestamp) +"ms. Avg: " + readSize * 1024 / (endTimestamp-startTimestamp)+"M/s");
+        System.out.println("finished read "+ readSize +" in "+(endTimestamp-startTimestamp) +"ms. Avg: " + readSize * 1024 / (endTimestamp-startTimestamp)+"M/s");
     }
 
 }

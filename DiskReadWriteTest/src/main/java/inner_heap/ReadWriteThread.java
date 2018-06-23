@@ -1,3 +1,5 @@
+package inner_heap;
+
 import java.io.*;
 import java.util.Date;
 
@@ -34,7 +36,7 @@ public class ReadWriteThread {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            int writtenLength = 0;
+            long writtenLength = 0;
             long startTime = System.currentTimeMillis();
             for(int i=0; i<size;i++){
                 try {
@@ -73,7 +75,7 @@ public class ReadWriteThread {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            int readLength = 0;
+            long readLength = 0;
             long startTime = System.currentTimeMillis();
             try {
                 input.skipBytes(offset);
